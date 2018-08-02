@@ -13,15 +13,12 @@
         <div id="app" class="container">
             <h1>Todo List</h1>
             <form novalidate class="was-validated">
-                <div class="form-row">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Todo..." required />
-                        <div class="invalid-tooltip">填入有效信息</div>
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Todo..." required />
+                    <div class="invalid-tooltip">填入有效信息</div>
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary" disabled>添加</button>
                     </div>
-                </div>
-                <div class="form-row justify-content-end mt-1">
-                    <button type="submit" class="btn btn-primary mr-1">Add</button>
-                    <button type="Reset" class="btn btn-light">Reset</button>
                 </div>
             </form>
         </div>
