@@ -65,12 +65,12 @@
             </table>
         </div>
         <script type="text/x-template" id="template-todo-form">
-            <form novalidate class="was-validated mt-3">
+            <form novalidate class="mt-3" :class="{'was-validated': isFormValidated}" @submit.prevent="submit">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Todo..." required />
+                    <input v-model="todo" type="text" name="todo" class="form-control" placeholder="Todo..." required />
                     <div class="invalid-tooltip">填入有效信息</div>
                     <div class="input-group-append">
-                        <button type="submit" class="btn btn-primary" disabled>添加</button>
+                        <button type="submit" class="btn btn-primary" :disabled="isFormInvalid">添加</button>
                     </div>
                 </div>
             </form>
@@ -108,6 +108,28 @@
                 'use strict';
 
                 var TodoForm = {
+                    data: function () {
+                        return {
+                            todo: '',
+                            isFormValidated: false,
+                        };
+                    },
+                    computed: {
+                        isFormInvalid: function () {
+                            return !this.todo;
+                        },
+                    },
+                    created: function () {
+                        var unwatch = this.$watch('todo', function () {
+                            this.isFormValidated = true;
+                            unwatch();
+                        });
+                    },
+                    methods: {
+                        submit: function () {
+                            console.log(this.todo);
+                        },
+                    },
                     template: '#template-todo-form',
                 };
 
