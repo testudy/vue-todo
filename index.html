@@ -107,11 +107,11 @@
             (function () {
                 'use strict';
 
-                Vue.component('TodoForm', {
+                var TodoForm = {
                     template: '#template-todo-form',
-                });
+                };
 
-                Vue.component('TodoListItem', {
+                var TodoListItem = {
                     data: function () {
                         return {
                             isEdit: false,
@@ -126,10 +126,14 @@
                         },
                     },
                     template: '#template-todo-list-item',
-                });
+                };
 
                 var app = new Vue({
                     el: '#app',
+                    components: {
+                        TodoForm: TodoForm,
+                        TodoListItem: TodoListItem,
+                    },
                 });
             }());
         </script>
