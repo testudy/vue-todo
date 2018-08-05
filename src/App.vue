@@ -35,7 +35,7 @@
                     :key="item.id"
                     :id="item.id"
                     :todo="item.todo"
-                    :checked.sync="item.checked"
+                    :checked="item.checked"
                     @on-update="update"
                     @on-remove="remove"
                 />
