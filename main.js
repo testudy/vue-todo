@@ -1,6 +1,4 @@
 (() => {
-    'use strict';
-
     const app = new Vue({
         el: '#app',
         components: {
@@ -12,7 +10,7 @@
             toggleCheckAllState: false,
         },
         watch: {
-            todos (value) {
+            todos(value) {
                 let checkAllState = true;
                 if (this.todos.length === 0) {
                     checkAllState = false;
@@ -42,7 +40,7 @@
              * https://zh.wikipedia.org/wiki/全局唯一标识符
              * https://baike.baidu.com/view/185358.htm
              */
-            guid () {
+            guid() {
                 const raw = [
                     Math.random().toString(31).substr(2),
                     Math.random().toString(31).substr(2),
@@ -51,41 +49,35 @@
                 return raw.replace(/(\S{8})(\S{4})(\S{4})(\S{4})(\S{12})/, '$1-$2-$3-$4-$5');
             },
 
-            create (modal) {
+            create(modal) {
                 console.log(modal);
                 modal.id = this.guid();
                 this.todos.push(modal);
             },
 
-            update (modal) {
-                let index = this.todos.findIndex(item => item.id === modal.id);
+            update(modal) {
+                const index = this.todos.findIndex(item => item.id === modal.id);
                 this.todos.splice(index, 1, modal);
             },
 
-            remove (id) {
-                let index = this.todos.findIndex(item => item.id === id);
+            remove(id) {
+                const index = this.todos.findIndex(item => item.id === id);
                 this.todos.splice(index, 1);
             },
 
-            toggleCheckAll (checked) {
-                this.todos = this.todos.map((item) => {
-                    return Object.assign({}, item, {checked: checked});
-                });
+            toggleCheckAll(checked) {
+                this.todos = this.todos.map(item => Object.assign({}, item, { checked }));
             },
 
-            checkAll () {
-                this.todos = this.todos.map((item) => {
-                    return Object.assign({}, item, {checked: true});
-                });
+            checkAll() {
+                this.todos = this.todos.map(item => Object.assign({}, item, { checked: true }));
             },
 
-            toggle () {
-                this.todos = this.todos.map((item) => {
-                    return Object.assign({}, item, {checked: !item.checked});
-                });
+            toggle() {
+                this.todos = this.todos.map(item => Object.assign({}, item, { checked: !item.checked }));
             },
 
-            clean () {
+            clean() {
                 this.todos = this.todos.filter(item => !item.checked);
             },
 
