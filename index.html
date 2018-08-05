@@ -47,8 +47,8 @@
                                     class="form-check-input"
                                     type="checkbox"
                                     value="#"
-                                    :checked="toggleSelectAllState"
-                                    @change.prevent="toggleSelectAll($event.target.checked)"
+                                    :checked="toggleCheckAllState"
+                                    @change.prevent="toggleCheckAll($event.target.checked)"
                                 >
                             </div>
                         </th>
@@ -59,7 +59,7 @@
                 <tfoot>
                     <tr>
                         <td colspan="3" class="text-right">
-                            <button type="button" class="btn btn-link btn-sm" @click.prevent="selectAll">全选</button>
+                            <button type="button" class="btn btn-link btn-sm" @click.prevent="checkAll">全选</button>
                             <button type="button" class="btn btn-link btn-sm" @click.prevent="toggle">反选</button>
                             <button type="button" class="btn btn-link text-danger btn-sm" @click.prevent="clean">清除</button>
                         </td>
@@ -274,26 +274,26 @@
                     },
                     data: {
                         todos: [],
-                        toggleSelectAllState: false,
+                        toggleCheckAllState: false,
                     },
                     watch: {
                         todos: function (value) {
-                            var selectAllState = true;
+                            var checkAllState = true;
                             if (this.todos.length === 0) {
-                                selectAllState = false;
+                                checkAllState = false;
                             } else {
                                 this.todos.forEach((item) => {
                                     if (!item.checked) {
-                                        selectAllState = false;
+                                        checkAllState = false;
                                     }
                                 });
                             }
-                            this.toggleSelectAllState = selectAllState;
+                            this.toggleCheckAllState = checkAllState;
                         },
 
                         /*
                         存在循环watch，如何解决呢？问强哥
-                        toggleSelectAllState: function (checked) {
+                        toggleCheckAllState: function (checked) {
                             console.log(arguments);
                             this.todos = this.todos.map((item) => {
                                 return Object.assign({}, item, {checked: checked});
@@ -332,13 +332,13 @@
                             this.todos.splice(index, 1);
                         },
 
-                        toggleSelectAll: function (checked) {
+                        toggleCheckAll: function (checked) {
                             this.todos = this.todos.map((item) => {
                                 return Object.assign({}, item, {checked: checked});
                             });
                         },
 
-                        selectAll: function () {
+                        checkAll: function () {
                             this.todos = this.todos.map((item) => {
                                 return Object.assign({}, item, {checked: true});
                             });
