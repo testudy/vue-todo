@@ -43,7 +43,13 @@
                     <tr>
                         <th class="todo-number" scope="col">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" value="#">
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    value="#"
+                                    :checked="toggleSelectAllState"
+                                    @change.prevent="toggleSelectAll($event.target.checked)"
+                                >
                             </div>
                         </th>
                         <th scope="col">代办列表</th>
@@ -53,9 +59,9 @@
                 <tfoot>
                     <tr>
                         <td colspan="3" class="text-right">
-                            <button type="button" class="btn btn-link btn-sm">全选</button>
-                            <button type="button" class="btn btn-link btn-sm">反选</button>
-                            <button type="button" class="btn btn-link text-danger btn-sm">清除</button>
+                            <button type="button" class="btn btn-link btn-sm" @click.prevent="selectAll">全选</button>
+                            <button type="button" class="btn btn-link btn-sm" @click.prevent="toggle">反选</button>
+                            <button type="button" class="btn btn-link text-danger btn-sm" @click.prevent="clean">清除</button>
                         </td>
                     </tr>
                 </tfoot>
@@ -66,6 +72,7 @@
                         :key="item.id"
                         :id="item.id"
                         :todo="item.todo"
+                        :checked.sync="item.checked"
                         @on-update="update"
                         @on-remove="remove"
                     ></tr>
@@ -112,7 +119,13 @@
             <tr>
                 <th scope="row">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" :value="id">
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            :value="id"
+                            :checked="checked"
+                            @change.prevent="$emit('update:checked', $event.target.checked)"
+                        >
                     </div>
                 </th>
                 <td v-if="isEdit">
@@ -221,6 +234,10 @@
                             type: String,
                             required: true,
                         },
+                        checked: {
+                            type: Boolean,
+                            default: false,
+                        },
                     },
                     data: function () {
                         return {
@@ -265,6 +282,28 @@
                                 todo: 'Vue Demo 2——单文件模板',
                             },
                         ],
+                        toggleSelectAllState: false,
+                    },
+                    watch: {
+                        todos: function (value) {
+                            var selectAllState = true;
+                            this.todos.forEach((item) => {
+                                if (!item.checked) {
+                                    selectAllState = false;
+                                }
+                            });
+                            this.toggleSelectAllState = selectAllState;
+                        },
+
+                        /*
+                        存在循环watch，如何解决呢？问强哥
+                        toggleSelectAllState: function (checked) {
+                            console.log(arguments);
+                            this.todos = this.todos.map((item) => {
+                                return Object.assign({}, item, {checked: checked});
+                            });
+                        },
+                        */
                     },
                     methods: {
                         /*
@@ -296,6 +335,29 @@
                             var index = this.todos.findIndex(item => item.id === id);
                             this.todos.splice(index, 1);
                         },
+
+                        toggleSelectAll: function (checked) {
+                            this.todos = this.todos.map((item) => {
+                                return Object.assign({}, item, {checked: checked});
+                            });
+                        },
+
+                        selectAll: function () {
+                            this.todos = this.todos.map((item) => {
+                                return Object.assign({}, item, {checked: true});
+                            });
+                        },
+
+                        toggle: function () {
+                            this.todos = this.todos.map((item) => {
+                                return Object.assign({}, item, {checked: !item.checked});
+                            });
+                        },
+
+                        clean: function () {
+                            this.todos = this.todos.filter(item => !item.checked);
+                        },
+
                     },
                 });
             }());
