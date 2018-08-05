@@ -1,4 +1,4 @@
-var CommonForm = {
+const CommonForm = {
     props: {
         id: {
             type: String,
@@ -11,7 +11,7 @@ var CommonForm = {
         size: {
             type: String,
             default: 'normal',
-            validator: function () {
+            validator () {
                 return ['large', 'normal', 'small'].indexOf !== -1;
             },
         },
@@ -20,39 +20,40 @@ var CommonForm = {
             default: '确定',
         },
     },
-    data: function () {
+    data () {
         return {
             todoState: this.todo,
             isFormValidated: false,
         };
     },
     computed: {
-        isFormInvalid: function () {
+        isFormInvalid () {
             return !this.todoState;
         },
     },
-    created: function () {
-        var unwatch = this.$watch('todoState', function () {
+    created () {
+        let unwatch = this.$watch('todoState', () => {
             this.isFormValidated = true;
             unwatch();
         });
     },
     template: '#template-common-form',
     methods: {
-        reset: function () {
+        reset () {
             this.todoState = '';
             this.isFormValidated = false;
-            var unwatch = this.$watch('todoState', function () {
+            let unwatch = this.$watch('todoState', () => {
+                console.log(this);
                 this.isFormValidated = true;
                 unwatch();
             });
         },
-        cancel: function () {
+        cancel () {
             if (typeof this.$listeners['on-cancel'] === 'function') {
                 this.$listeners['on-cancel']();
             }
         },
-        submit: function () {
+        submit () {
             if (typeof this.$listeners['on-submit'] === 'function') {
                 this.$listeners['on-submit']({
                     id: this.id,

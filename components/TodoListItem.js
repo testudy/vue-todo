@@ -1,6 +1,6 @@
-var TodoListItem = {
+const TodoListItem = {
     components: {
-        CommonForm: CommonForm,
+        CommonForm,
     },
     props: {
         id: {
@@ -16,25 +16,25 @@ var TodoListItem = {
             default: false,
         },
     },
-    data: function () {
+    data () {
         return {
             isEdit: false,
         };
     },
     methods: {
-        activateEdit: function () {
+        activateEdit () {
             this.isEdit = true;
         },
-        deactivateEdit: function () {
+        deactivateEdit () {
             this.isEdit = false;
         },
-        update: function (modal) {
+        update (modal) {
             if (typeof this.$listeners['on-update'] === 'function') {
                 this.$listeners['on-update'](modal);
             }
             this.deactivateEdit();
         },
-        remove: function (id) {
+        remove (id) {
             if (typeof this.$listeners['on-remove'] === 'function') {
                 this.$listeners['on-remove'](id);
             }
