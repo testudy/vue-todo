@@ -7,7 +7,7 @@
                     :checked="checked"
                     class="form-check-input"
                     type="checkbox"
-                    @change.prevent="$emit('update:checked', $event.target.checked)"
+                    @change.prevent="update({id, checked: $event.target.checked})"
                 >
             </div>
         </th>
