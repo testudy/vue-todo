@@ -279,11 +279,15 @@
                     watch: {
                         todos: function (value) {
                             var selectAllState = true;
-                            this.todos.forEach((item) => {
-                                if (!item.checked) {
-                                    selectAllState = false;
-                                }
-                            });
+                            if (this.todos.length === 0) {
+                                selectAllState = false;
+                            } else {
+                                this.todos.forEach((item) => {
+                                    if (!item.checked) {
+                                        selectAllState = false;
+                                    }
+                                });
+                            }
                             this.toggleSelectAllState = selectAllState;
                         },
 
