@@ -37,7 +37,7 @@
             }
         </style>
         <div id="app" class="container">
-            <todo-form></todo-form>
+            <common-form class="mt-3" @on-submit="create"></common-form>
             <table class="table table-striped table-hover mt-5">
                 <thead class="thead-light">
                     <tr>
@@ -64,13 +64,38 @@
                 </tbody>
             </table>
         </div>
-        <script type="text/x-template" id="template-todo-form">
-            <form novalidate class="mt-3" :class="{'was-validated': isFormValidated}" @submit.prevent="submit">
+        <script type="text/x-template" id="template-common-form">
+            <form
+                novalidate
+                :class="{'was-validated': isFormValidated}"
+                @submit.prevent="submit"
+            >
                 <div class="input-group">
-                    <input v-model="todo" type="text" name="todo" class="form-control" placeholder="Todo..." required />
+                    <input
+                        v-model="todoState"
+                        type="text"
+                        name="todo"
+                        placeholder="Todo..."
+                        required
+                        class="form-control"
+                        :class="{'form-control-lg': size === 'large', 'form-control-sm': size === 'small'}"
+                        @keyup.esc="$listeners['on-cancel'] && $listeners['on-cancel']()"
+                    />
                     <div class="invalid-tooltip">填入有效信息</div>
                     <div class="input-group-append">
-                        <button type="submit" class="btn btn-primary" :disabled="isFormInvalid">添加</button>
+                        <button
+                            v-if="typeof $listeners['on-cancel'] === 'function'"
+                            type="button"
+                            class="btn btn-light"
+                            :class="{'btn-lg': size === 'large', 'btn-sm': size === 'small'}"
+                            @click.prevent="$listeners['on-cancel']"
+                        >取消</button>
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                            :class="{'btn-lg': size === 'large', 'btn-sm': size === 'small'}"
+                            :disabled="isFormInvalid"
+                        >{{btnSubmitText}}</button>
                     </div>
                 </div>
             </form>
@@ -82,17 +107,15 @@
                         <input class="form-check-input" type="checkbox" :value="id">
                     </div>
                 </th>
-                <td v-if="isEdit" @keyup.esc="deactivateEdit">
-                    <form novalidate class="was-validated">
-                        <div class="input-group">
-                            <input type="text" class="form-control form-control-sm" placeholder="Todo..." required />
-                            <div class="invalid-tooltip">填入有效信息</div>
-                            <div class="input-group-append">
-                                <button type="button" class="btn btn-light btn-sm" @click.prevent="deactivateEdit">取消</button>
-                                <button type="submit" class="btn btn-primary btn-sm" disabled>修改</button>
-                            </div>
-                        </div>
-                    </form>
+                <td v-if="isEdit">
+                    <common-form
+                        :id="id"
+                        :todo="todo"
+                        size="small"
+                        btn-submit-text="修改"
+                        @on-cancel="deactivateEdit"
+                        @on-submit="update"
+                    ></common-form>
                 </td>
                 <td v-else @click="activateEdit">
                     {{todo}}
@@ -107,33 +130,62 @@
             (function () {
                 'use strict';
 
-                var TodoForm = {
+                var CommonForm = {
+                    props: {
+                        id: {
+                            type: String,
+                            default: '',
+                        },
+                        todo: {
+                            type: String,
+                            default: '',
+                        },
+                        size: {
+                            type: String,
+                            default: 'normal',
+                            validator: function () {
+                                return ['large', 'normal', 'small'].indexOf !== -1;
+                            },
+                        },
+                        btnSubmitText: {
+                            type: String,
+                            default: '确定',
+                        },
+                    },
                     data: function () {
                         return {
-                            todo: '',
+                            todoState: this.todo,
                             isFormValidated: false,
                         };
                     },
                     computed: {
                         isFormInvalid: function () {
-                            return !this.todo;
+                            return !this.todoState;
                         },
                     },
                     created: function () {
-                        var unwatch = this.$watch('todo', function () {
+                        var unwatch = this.$watch('todoState', function () {
                             this.isFormValidated = true;
                             unwatch();
                         });
                     },
+                    template: '#template-common-form',
                     methods: {
                         submit: function () {
-                            console.log(this.todo);
+                            if (this.$listeners['on-submit']) {
+                                this.$listeners['on-submit']({
+                                    id: this.id,
+                                    todo: this.todoState,
+                                });
+                            }
                         },
                     },
-                    template: '#template-todo-form',
                 };
 
                 var TodoListItem = {
+                    components: {
+                        CommonForm: CommonForm,
+                    },
                     props: {
                         id: {
                             type: String,
@@ -156,6 +208,10 @@
                         deactivateEdit: function () {
                             this.isEdit = false;
                         },
+                        update: function (modal) {
+                            console.log(modal);
+                            this.deactivateEdit();
+                        },
                         remove: function (id) {
                             console.log(id);
                         },
@@ -166,7 +222,7 @@
                 var app = new Vue({
                     el: '#app',
                     components: {
-                        TodoForm: TodoForm,
+                        CommonForm: CommonForm,
                         TodoListItem: TodoListItem,
                     },
                     data: {
@@ -179,6 +235,11 @@
                                 todo: 'Vue Demo 2——单文件模板',
                             },
                         ],
+                    },
+                    methods: {
+                        create: function (modal) {
+                            console.log(modal);
+                        },
                     },
                 });
             }());
