@@ -60,7 +60,15 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                    <tr is="todo-list-item" v-for="item in todos" :key="item.id" :id="item.id" :todo="item.todo"></tr>
+                    <tr
+                        is="todo-list-item"
+                        v-for="item in todos"
+                        :key="item.id"
+                        :id="item.id"
+                        :todo="item.todo"
+                        @on-update="update"
+                        @on-remove="remove"
+                    ></tr>
                 </tbody>
             </table>
         </div>
@@ -79,7 +87,7 @@
                         required
                         class="form-control"
                         :class="{'form-control-lg': size === 'large', 'form-control-sm': size === 'small'}"
-                        @keyup.esc="$listeners['on-cancel'] && $listeners['on-cancel']()"
+                        @keyup.esc="cancel"
                     />
                     <div class="invalid-tooltip">填入有效信息</div>
                     <div class="input-group-append">
@@ -88,7 +96,7 @@
                             type="button"
                             class="btn btn-light"
                             :class="{'btn-lg': size === 'large', 'btn-sm': size === 'small'}"
-                            @click.prevent="$listeners['on-cancel']"
+                            @click.prevent="cancel"
                         >取消</button>
                         <button
                             type="submit"
@@ -121,7 +129,11 @@
                     {{todo}}
                 </td>
                 <td class="text-center">
-                    <button type="button" class="btn btn-link text-danger btn-sm" @click.prevent="remove(id)">删除</button>
+                    <button
+                        type="button"
+                        class="btn btn-link text-danger btn-sm"
+                        @click.prevent="remove(id)"
+                    >删除</button>
                 </td>
             </tr>
         </script>
@@ -171,13 +183,27 @@
                     },
                     template: '#template-common-form',
                     methods: {
+                        reset: function () {
+                            this.todoState = '';
+                            this.isFormValidated = false;
+                            var unwatch = this.$watch('todoState', function () {
+                                this.isFormValidated = true;
+                                unwatch();
+                            });
+                        },
+                        cancel: function () {
+                            if (typeof this.$listeners['on-cancel'] === 'function') {
+                                this.$listeners['on-cancel']();
+                            }
+                        },
                         submit: function () {
-                            if (this.$listeners['on-submit']) {
+                            if (typeof this.$listeners['on-submit'] === 'function') {
                                 this.$listeners['on-submit']({
                                     id: this.id,
                                     todo: this.todoState,
                                 });
                             }
+                            this.reset();
                         },
                     },
                 };
@@ -209,11 +235,15 @@
                             this.isEdit = false;
                         },
                         update: function (modal) {
-                            console.log(modal);
+                            if (typeof this.$listeners['on-update'] === 'function') {
+                                this.$listeners['on-update'](modal);
+                            }
                             this.deactivateEdit();
                         },
                         remove: function (id) {
-                            console.log(id);
+                            if (typeof this.$listeners['on-remove'] === 'function') {
+                                this.$listeners['on-remove'](id);
+                            }
                         },
                     },
                     template: '#template-todo-list-item',
@@ -237,8 +267,34 @@
                         ],
                     },
                     methods: {
+                        /*
+                         * 利用random随机数生成伪GUID
+                         * https://zh.wikipedia.org/wiki/全局唯一标识符
+                         * https://baike.baidu.com/view/185358.htm
+                         */
+                        guid: function () {
+                            const raw = [
+                                Math.random().toString(31).substr(2),
+                                Math.random().toString(31).substr(2),
+                                Math.random().toString(31).substr(2),
+                            ].join('').substr(0, 32);
+                            return raw.replace(/(\S{8})(\S{4})(\S{4})(\S{4})(\S{12})/, '$1-$2-$3-$4-$5');
+                        },
+
                         create: function (modal) {
                             console.log(modal);
+                            modal.id = this.guid();
+                            this.todos.push(modal);
+                        },
+
+                        update: function (modal) {
+                            var index = this.todos.findIndex(item => item.id === modal.id);
+                            this.todos.splice(index, 1, modal);
+                        },
+
+                        remove: function (id) {
+                            var index = this.todos.findIndex(item => item.id === id);
+                            this.todos.splice(index, 1);
                         },
                     },
                 });
