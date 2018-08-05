@@ -1,4 +1,41 @@
-const CommonForm = {
+<template>
+    <form
+        novalidate
+        :class="{'was-validated': isFormValidated}"
+        @submit.prevent="submit"
+    >
+        <div class="input-group">
+            <input
+                v-model="todoState"
+                type="text"
+                name="todo"
+                placeholder="Todo..."
+                required
+                class="form-control"
+                :class="{'form-control-lg': size === 'large', 'form-control-sm': size === 'small'}"
+                @keyup.esc="cancel"
+            />
+            <div class="invalid-tooltip">填入有效信息</div>
+            <div class="input-group-append">
+                <button
+                    v-if="typeof $listeners['on-cancel'] === 'function'"
+                    type="button"
+                    class="btn btn-light"
+                    :class="{'btn-lg': size === 'large', 'btn-sm': size === 'small'}"
+                    @click.prevent="cancel"
+                >取消</button>
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                    :class="{'btn-lg': size === 'large', 'btn-sm': size === 'small'}"
+                    :disabled="isFormInvalid"
+                >{{btnSubmitText}}</button>
+            </div>
+        </div>
+    </form>
+</template>
+<script>
+export default {
     props: {
         id: {
             type: String,
@@ -64,3 +101,6 @@ const CommonForm = {
         },
     },
 };
+</script>
+<style>
+</style>
