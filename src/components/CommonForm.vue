@@ -1,34 +1,34 @@
 <template>
     <form
-        novalidate
         :class="{'was-validated': isFormValidated}"
+        novalidate
         @submit.prevent="submit"
     >
         <div class="input-group">
             <input
                 v-model="todoState"
+                :class="{'form-control-lg': size === 'large', 'form-control-sm': size === 'small'}"
                 type="text"
                 name="todo"
                 placeholder="Todo..."
                 required
                 class="form-control"
-                :class="{'form-control-lg': size === 'large', 'form-control-sm': size === 'small'}"
                 @keyup.esc="cancel"
-            />
+            >
             <div class="invalid-tooltip">填入有效信息</div>
             <div class="input-group-append">
                 <button
                     v-if="typeof $listeners['on-cancel'] === 'function'"
+                    :class="{'btn-lg': size === 'large', 'btn-sm': size === 'small'}"
                     type="button"
                     class="btn btn-light"
-                    :class="{'btn-lg': size === 'large', 'btn-sm': size === 'small'}"
                     @click.prevent="cancel"
                 >取消</button>
                 <button
-                    type="submit"
-                    class="btn btn-primary"
                     :class="{'btn-lg': size === 'large', 'btn-sm': size === 'small'}"
                     :disabled="isFormInvalid"
+                    type="submit"
+                    class="btn btn-primary"
                 >{{btnSubmitText}}</button>
             </div>
         </div>
@@ -48,7 +48,7 @@ export default {
         size: {
             type: String,
             default: 'normal',
-            validator () {
+            validator() {
                 return ['large', 'normal', 'small'].indexOf !== -1;
             },
         },
@@ -57,40 +57,39 @@ export default {
             default: '确定',
         },
     },
-    data () {
+    data() {
         return {
             todoState: this.todo,
             isFormValidated: false,
         };
     },
     computed: {
-        isFormInvalid () {
+        isFormInvalid() {
             return !this.todoState;
         },
     },
-    created () {
-        let unwatch = this.$watch('todoState', () => {
+    created() {
+        const unwatch = this.$watch('todoState', () => {
             this.isFormValidated = true;
             unwatch();
         });
     },
-    template: '#template-common-form',
     methods: {
-        reset () {
+        reset() {
             this.todoState = '';
             this.isFormValidated = false;
-            let unwatch = this.$watch('todoState', () => {
+            const unwatch = this.$watch('todoState', () => {
                 console.log(this);
                 this.isFormValidated = true;
                 unwatch();
             });
         },
-        cancel () {
+        cancel() {
             if (typeof this.$listeners['on-cancel'] === 'function') {
                 this.$listeners['on-cancel']();
             }
         },
-        submit () {
+        submit() {
             if (typeof this.$listeners['on-submit'] === 'function') {
                 this.$listeners['on-submit']({
                     id: this.id,
@@ -100,6 +99,7 @@ export default {
             this.reset();
         },
     },
+    template: '#template-common-form',
 };
 </script>
 <style>

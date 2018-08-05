@@ -3,10 +3,10 @@
         <th scope="row">
             <div class="form-check form-check-inline">
                 <input
-                    class="form-check-input"
-                    type="checkbox"
                     :value="id"
                     :checked="checked"
+                    class="form-check-input"
+                    type="checkbox"
                     @change.prevent="$emit('update:checked', $event.target.checked)"
                 >
             </div>
@@ -19,7 +19,7 @@
                 btn-submit-text="修改"
                 @on-cancel="deactivateEdit"
                 @on-submit="update"
-            ></common-form>
+            />
         </td>
         <td v-else @click="activateEdit">
             {{todo}}
@@ -54,25 +54,25 @@ export default {
             default: false,
         },
     },
-    data () {
+    data() {
         return {
             isEdit: false,
         };
     },
     methods: {
-        activateEdit () {
+        activateEdit() {
             this.isEdit = true;
         },
-        deactivateEdit () {
+        deactivateEdit() {
             this.isEdit = false;
         },
-        update (modal) {
+        update(modal) {
             if (typeof this.$listeners['on-update'] === 'function') {
                 this.$listeners['on-update'](modal);
             }
             this.deactivateEdit();
         },
-        remove (id) {
+        remove(id) {
             if (typeof this.$listeners['on-remove'] === 'function') {
                 this.$listeners['on-remove'](id);
             }

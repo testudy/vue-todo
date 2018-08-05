@@ -1,16 +1,16 @@
 <template>
     <div id="app" class="container">
-        <common-form class="mt-3" @on-submit="create"></common-form>
+        <common-form class="mt-3" @on-submit="create"/>
         <table class="table table-striped table-hover mt-5">
             <thead class="thead-light">
                 <tr>
                     <th class="todo-number" scope="col">
                         <div class="form-check form-check-inline">
                             <input
+                                :checked="toggleCheckAllState"
                                 class="form-check-input"
                                 type="checkbox"
                                 value="#"
-                                :checked="toggleCheckAllState"
                                 @change.prevent="toggleCheckAll($event.target.checked)"
                             >
                         </div>
@@ -38,7 +38,7 @@
                     :checked.sync="item.checked"
                     @on-update="update"
                     @on-remove="remove"
-                ></tr>
+                />
             </tbody>
         </table>
     </div>
@@ -61,7 +61,7 @@ export default {
         };
     },
     watch: {
-        todos(value) {
+        todos() {
             let checkAllState = true;
             if (this.todos.length === 0) {
                 checkAllState = false;
@@ -102,8 +102,8 @@ export default {
 
         create(modal) {
             console.log(modal);
-            modal.id = this.guid();
-            this.todos.push(modal);
+            const newModal = Object.assign(modal, { id: this.guid() });
+            this.todos.push(newModal);
         },
 
         update(modal) {
