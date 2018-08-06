@@ -1,5 +1,5 @@
 <template>
-    <div class="about">
+    <Card>
         <h1>Study Vue</h1>
-    </div>
+    </Card>
 </template>

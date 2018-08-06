@@ -1,38 +1,33 @@
 <template>
-    <form
-        :class="{'was-validated': isFormValidated}"
-        novalidate
-        @submit.prevent="submit"
-    >
-        <div class="input-group">
-            <input
-                v-model="todoState"
-                :class="{'form-control-lg': size === 'large', 'form-control-sm': size === 'small'}"
+    <Form ref="todoForm" :model="todoModel" inline class="common-form">
+        <FormItem prop="todoState" class="common-form-input">
+            <Input
+                v-model="todoModel.todoState"
+                :size="size"
                 type="text"
                 name="todo"
                 placeholder="Todo..."
-                required
-                class="form-control"
-                @keyup.esc="cancel"
-            >
-            <div class="invalid-tooltip">填入有效信息</div>
-            <div class="input-group-append">
-                <button
-                    v-if="typeof $listeners['on-cancel'] === 'function'"
-                    :class="{'btn-lg': size === 'large', 'btn-sm': size === 'small'}"
-                    type="button"
-                    class="btn btn-light"
-                    @click.prevent="cancel"
-                >取消</button>
-                <button
-                    :class="{'btn-lg': size === 'large', 'btn-sm': size === 'small'}"
-                    :disabled="isFormInvalid"
-                    type="submit"
-                    class="btn btn-primary"
-                >{{btnSubmitText}}</button>
-            </div>
-        </div>
-    </form>
+            />
+        </FormItem>
+        <FormItem
+            v-if="typeof $listeners['on-cancel'] === 'function'"
+        >
+            <Button
+                :size="size"
+                type="info"
+                @click.prevent="cancel"
+            >取消</button>
+        </FormItem>
+        <FormItem>
+            <Button
+                :size="size"
+                :disabled="isFormInvalid"
+                type="primary"
+                html-type="submit"
+                @click.prevent="submit"
+            >{{btnSubmitText}}</button>
+        </FormItem>
+    </Form>
 </template>
 <script>
 export default {
@@ -47,9 +42,9 @@ export default {
         },
         size: {
             type: String,
-            default: 'normal',
+            default: 'default',
             validator() {
-                return ['large', 'normal', 'small'].indexOf !== -1;
+                return ['large', 'default', 'small'].indexOf !== -1;
             },
         },
         btnSubmitText: {
@@ -59,32 +54,17 @@ export default {
     },
     data() {
         return {
-            todoState: this.todo,
-            isFormValidated: false,
+            todoModel: {
+                todoState: this.todo,
+            },
         };
     },
     computed: {
         isFormInvalid() {
-            return !this.todoState;
+            return !this.todoModel.todoState;
         },
-    },
-    created() {
-        console.log('created', this);
-        const unwatch = this.$watch('todoState', () => {
-            this.isFormValidated = true;
-            unwatch();
-        });
     },
     methods: {
-        reset() {
-            this.todoState = '';
-            this.isFormValidated = false;
-            const unwatch = this.$watch('todoState', () => {
-                console.log(this);
-                this.isFormValidated = true;
-                unwatch();
-            });
-        },
         cancel() {
             if (typeof this.$listeners['on-cancel'] === 'function') {
                 this.$listeners['on-cancel']();
@@ -94,14 +74,29 @@ export default {
             if (typeof this.$listeners['on-submit'] === 'function') {
                 this.$listeners['on-submit']({
                     id: this.id,
-                    todo: this.todoState,
+                    todo: this.todoModel.todoState,
                 });
             }
-            this.reset();
+            this.$refs['todoForm'].resetFields();
         },
     },
-    template: '#template-common-form',
 };
 </script>
 <style>
+    .ivu-form-inline .ivu-form-item {
+        margin-bottom: 0;
+    }
+
+    .ivu-form-inline .ivu-form-item:last-child {
+        margin-right: 0;
+    }
+
+    .common-form {
+        display: flex;
+        margin-bottom: 16px;
+    }
+
+    .common-form-input {
+        flex: 1;
+    }
 </style>
