@@ -9,7 +9,7 @@
             >
         </th>
         <td v-if="isEdit">
-            <common-form
+            <CommonForm
                 :id="id"
                 :todo="todo"
                 size="small"

@@ -1,6 +1,6 @@
 <template>
     <Card>
-        <common-form @on-submit="create"/>
+        <CommonForm @on-submit="create"/>
         <table class="table">
             <thead>
                 <tr>
@@ -26,8 +26,7 @@
                 </tr>
             </tfoot>
             <tbody>
-                <tr
-                    is="todo-list-item"
+                <TodoListItem
                     v-for="item in todos"
                     :key="item.id"
                     :id="item.id"
