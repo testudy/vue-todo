@@ -1,18 +1,30 @@
 <template>
     <div id="app" class="container">
-        <nav id="nav" class="nav nav-pills nav-justified">
-            <router-link to="/" class="nav-link">Home</router-link>
-            <router-link to="/todo" class="nav-link">Todo</router-link>
-        </nav>
-        <keep-alive>
-            <router-view/>
-        </keep-alive>
+        <Layout>
+            <Header>
+                <Menu mode="horizontal" theme="dark" active-name="home">
+                    <MenuItem name="home" to="/">
+                        <Icon type="ios-navigate" />
+                        Home
+                    </MenuItem>
+                    <MenuItem name="todo" to="/todo">
+                        <Icon type="ios-keypad" />
+                        Todo
+                    </MenuItem>
+                </Menu>
+            </Header>
+            <Content>
+                <keep-alive>
+                    <router-view/>
+                </keep-alive>
+            </Content>
+        </Layout>
     </div>
 </template>
 
 <style>
 .container {
     width: 640px;
-    padding-top: 16px;
+    margin: auto;
 }
 </style>

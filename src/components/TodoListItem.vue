@@ -1,15 +1,12 @@
 <template>
     <tr>
         <th scope="row">
-            <div class="form-check form-check-inline">
-                <input
-                    :value="id"
-                    :checked="checked"
-                    class="form-check-input"
-                    type="checkbox"
-                    @change.prevent="update({id, checked: $event.target.checked})"
-                >
-            </div>
+            <input
+                :value="id"
+                :checked="checked"
+                type="checkbox"
+                @change.prevent="update({id, checked: $event.target.checked})"
+            >
         </th>
         <td v-if="isEdit">
             <common-form
@@ -24,12 +21,12 @@
         <td v-else @click="activateEdit">
             {{todo}}
         </td>
-        <td class="text-center">
-            <button
-                type="button"
-                class="btn btn-link text-danger btn-sm"
+        <td class="todo-operation">
+            <Button
+                type="warning"
+                size="small"
                 @click.prevent="remove(id)"
-            >删除</button>
+            >删除</Button>
         </td>
     </tr>
 </template>
@@ -78,7 +75,6 @@ export default {
             }
         },
     },
-    template: '#template-todo-list-item',
 };
 </script>
 <style>
