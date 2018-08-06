@@ -69,6 +69,7 @@ export default {
         },
     },
     created() {
+        console.log('created', this);
         const unwatch = this.$watch('todoState', () => {
             this.isFormValidated = true;
             unwatch();
