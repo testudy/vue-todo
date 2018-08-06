@@ -4,7 +4,9 @@
             <router-link to="/" class="nav-link">Home</router-link>
             <router-link to="/todo" class="nav-link">Todo</router-link>
         </nav>
-        <router-view/>
+        <keep-alive>
+            <router-view/>
+        </keep-alive>
     </div>
 </template>
 
