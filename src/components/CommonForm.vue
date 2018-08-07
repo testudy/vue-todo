@@ -71,7 +71,7 @@ export default class CommonForm extends Vue {
         if (typeof this.$listeners['on-cancel'] === 'function') {
             this.$listeners['on-cancel']();
         }
-    };
+    }
 
     submit() {
         if (typeof this.$listeners['on-submit'] === 'function') {
@@ -81,7 +81,7 @@ export default class CommonForm extends Vue {
             });
         }
         this.$refs.todoForm.resetFields();
-    };
+    }
 }
 </script>
 <style>

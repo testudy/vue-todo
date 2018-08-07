@@ -59,21 +59,21 @@ export default class TodoListItem extends Vue {
 
     activateEdit() {
         this.isEdit = true;
-    };
+    }
     deactivateEdit() {
         this.isEdit = false;
-    };
+    }
     update(modal) {
         if (typeof this.$listeners['on-update'] === 'function') {
             this.$listeners['on-update'](modal);
         }
         this.deactivateEdit();
-    };
+    }
     remove(id) {
         if (typeof this.$listeners['on-remove'] === 'function') {
             this.$listeners['on-remove'](id);
         }
-    };
+    }
 }
 </script>
 <style>
