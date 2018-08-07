@@ -6,7 +6,7 @@
                 :checked="checked"
                 type="checkbox"
                 @change.prevent="update({id, checked: $event.target.checked})"
-            >
+            />
         </th>
         <td v-if="isEdit">
             <CommonForm

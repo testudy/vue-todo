@@ -3,7 +3,7 @@ module.exports = {
   env: {
     node: true
   },
-  'extends': [
+  extends: [
     'plugin:vue/essential',
     '@vue/airbnb'
   ],
@@ -26,7 +26,15 @@ module.exports = {
       'error',
       4
     ],
-    'vue/html-self-closing': 'error',
+    'vue/html-self-closing': ['error', {
+        html: {
+            void: 'always',
+            normal: 'always',
+            component: 'always'
+        },
+        svg: 'always',
+        math: 'always'
+    }],
     'vue/require-default-prop': 'error',
     'vue/require-prop-types': 'error',
     'vue/attributes-order': 'error',

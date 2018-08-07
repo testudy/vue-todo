@@ -77,7 +77,7 @@ export default {
                     todo: this.todoModel.todoState,
                 });
             }
-            this.$refs['todoForm'].resetFields();
+            this.$refs.todoForm.resetFields();
         },
     },
 };

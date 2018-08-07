@@ -10,7 +10,7 @@
                             type="checkbox"
                             value="#"
                             @change.prevent="toggleCheckAll($event.target.checked)"
-                        >
+                        />
                     </th>
                     <th scope="col">代办列表</th>
                     <th class="todo-operation" scope="col">操作</th>
