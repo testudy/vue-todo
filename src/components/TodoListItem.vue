@@ -31,9 +31,11 @@
     </tr>
 </template>
 <script>
+import Vue from 'vue';
+import Component from 'vue-class-component';
 import CommonForm from './CommonForm.vue';
 
-export default {
+@Component({
     components: {
         CommonForm,
     },
@@ -51,31 +53,28 @@ export default {
             default: false,
         },
     },
-    data() {
-        return {
-            isEdit: false,
-        };
-    },
-    methods: {
-        activateEdit() {
-            this.isEdit = true;
-        },
-        deactivateEdit() {
-            this.isEdit = false;
-        },
-        update(modal) {
-            if (typeof this.$listeners['on-update'] === 'function') {
-                this.$listeners['on-update'](modal);
-            }
-            this.deactivateEdit();
-        },
-        remove(id) {
-            if (typeof this.$listeners['on-remove'] === 'function') {
-                this.$listeners['on-remove'](id);
-            }
-        },
-    },
-};
+})
+export default class TodoListItem extends Vue {
+    isEdit = false;
+
+    activateEdit() {
+        this.isEdit = true;
+    };
+    deactivateEdit() {
+        this.isEdit = false;
+    };
+    update(modal) {
+        if (typeof this.$listeners['on-update'] === 'function') {
+            this.$listeners['on-update'](modal);
+        }
+        this.deactivateEdit();
+    };
+    remove(id) {
+        if (typeof this.$listeners['on-remove'] === 'function') {
+            this.$listeners['on-remove'](id);
+        }
+    };
+}
 </script>
 <style>
 </style>

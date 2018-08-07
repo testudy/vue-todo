@@ -30,7 +30,10 @@
     </Form>
 </template>
 <script>
-export default {
+import Vue from 'vue';
+import Component from 'vue-class-component';
+
+@Component({
     props: {
         id: {
             type: String,
@@ -52,35 +55,34 @@ export default {
             default: '确定',
         },
     },
-    data() {
-        return {
-            todoModel: {
-                todoState: this.todo,
-            },
-        };
-    },
+
     computed: {
         isFormInvalid() {
             return !this.todoModel.todoState;
         },
     },
-    methods: {
-        cancel() {
-            if (typeof this.$listeners['on-cancel'] === 'function') {
-                this.$listeners['on-cancel']();
-            }
-        },
-        submit() {
-            if (typeof this.$listeners['on-submit'] === 'function') {
-                this.$listeners['on-submit']({
-                    id: this.id,
-                    todo: this.todoModel.todoState,
-                });
-            }
-            this.$refs.todoForm.resetFields();
-        },
-    },
-};
+})
+export default class CommonForm extends Vue {
+    todoModel = {
+        todoState: this.todo,
+    };
+
+    cancel() {
+        if (typeof this.$listeners['on-cancel'] === 'function') {
+            this.$listeners['on-cancel']();
+        }
+    };
+
+    submit() {
+        if (typeof this.$listeners['on-submit'] === 'function') {
+            this.$listeners['on-submit']({
+                id: this.id,
+                todo: this.todoModel.todoState,
+            });
+        }
+        this.$refs.todoForm.resetFields();
+    };
+}
 </script>
 <style>
     .ivu-form-inline .ivu-form-item {

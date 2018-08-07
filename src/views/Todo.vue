@@ -41,16 +41,18 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import { mapState, mapMutations } from 'vuex';
+import Component from 'vue-class-component';
 import CommonForm from '../components/CommonForm.vue';
 import TodoListItem from '../components/TodoListItem.vue';
 
-export default {
-    name: 'app',
+@Component({
     components: {
         CommonForm,
         TodoListItem,
     },
+
     computed: {
         ...mapState([
             'todos',
@@ -71,6 +73,7 @@ export default {
             },
         }),
     },
+
     methods: mapMutations([
         'create',
         'update',
@@ -80,7 +83,9 @@ export default {
         'toggle',
         'clean',
     ]),
-};
+})
+export default class Todo extends Vue {
+}
 </script>
 
 <style>
