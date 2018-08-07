@@ -4,6 +4,9 @@ import iView from 'iview';
 export default function () {
     const components = Object.keys(iView).filter(key => /^[A-Z]/.test(key));
     components.forEach((key) => {
-        Vue.component(`i${key}`, Vue.component(key));
+        const component = Vue.component(key);
+        if (component) {
+            Vue.component(`i${key}`, component);
+        }
     });
 }
