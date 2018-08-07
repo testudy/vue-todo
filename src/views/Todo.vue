@@ -91,6 +91,7 @@ export default class Todo extends Vue {
 <style>
 .table {
     width: 100%;
+    margin-top: 16px;
     table-layout: fixed;
     border-collapse: collapse;
     border: 1px solid #e9e9e9;

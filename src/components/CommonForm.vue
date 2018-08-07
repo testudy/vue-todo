@@ -95,7 +95,6 @@ export default class CommonForm extends Vue {
 
     .common-form {
         display: flex;
-        margin-bottom: 16px;
     }
 
     .common-form-input {
