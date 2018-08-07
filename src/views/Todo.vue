@@ -1,6 +1,6 @@
 <template>
-    <Card>
-        <CommonForm @on-submit="create"/>
+    <i-card>
+        <common-form @on-submit="create"/>
         <table class="table">
             <thead>
                 <tr>
@@ -19,14 +19,14 @@
             <tfoot>
                 <tr>
                     <td colspan="3" class="todos-operation">
-                        <Button type="info" size="small" class="button" @click.prevent="checkAll">全选</Button>
-                        <Button type="info" size="small" class="button" @click.prevent="toggle">反选</Button>
-                        <Button type="warning" size="small" class="button" @click.prevent="clean">清除</Button>
+                        <i-button type="info" size="small" class="button" @click.prevent="checkAll">全选</i-button>
+                        <i-button type="info" size="small" class="button" @click.prevent="toggle">反选</i-button>
+                        <i-button type="warning" size="small" class="button" @click.prevent="clean">清除</i-button>
                     </td>
                 </tr>
             </tfoot>
             <tbody>
-                <TodoListItem
+                <todo-list-item
                     v-for="item in todos"
                     :key="item.id"
                     :id="item.id"
@@ -37,7 +37,7 @@
                 />
             </tbody>
         </table>
-    </Card>
+    </i-card>
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 <template>
-    <Form ref="todoForm" :model="todoModel" inline class="common-form">
-        <FormItem prop="todoState" class="common-form-input">
+    <i-form ref="todoForm" :model="todoModel" inline class="common-form">
+        <i-form-item prop="todoState" class="common-form-input">
             <Input
                 v-model="todoModel.todoState"
                 :size="size"
@@ -8,8 +8,8 @@
                 name="todo"
                 placeholder="Todo..."
             />
-        </FormItem>
-        <FormItem
+        </i-form-item>
+        <i-form-item
             v-if="typeof $listeners['on-cancel'] === 'function'"
         >
             <Button
@@ -17,8 +17,8 @@
                 type="info"
                 @click.prevent="cancel"
             >取消</button>
-        </FormItem>
-        <FormItem>
+        </i-form-item>
+        <i-form-item>
             <Button
                 :size="size"
                 :disabled="isFormInvalid"
@@ -26,8 +26,8 @@
                 html-type="submit"
                 @click.prevent="submit"
             >{{btnSubmitText}}</button>
-        </FormItem>
-    </Form>
+        </i-form-item>
+    </i-form>
 </template>
 <script>
 import Vue from 'vue';

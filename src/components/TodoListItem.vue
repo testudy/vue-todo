@@ -9,7 +9,7 @@
             />
         </th>
         <td v-if="isEdit">
-            <CommonForm
+            <common-form
                 :id="id"
                 :todo="todo"
                 size="small"
@@ -22,11 +22,11 @@
             {{todo}}
         </td>
         <td class="todo-operation">
-            <Button
+            <i-button
                 type="warning"
                 size="small"
                 @click.prevent="remove(id)"
-            >删除</Button>
+            >删除</i-button>
         </td>
     </tr>
 </template>

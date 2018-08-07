@@ -1,24 +1,24 @@
 <template>
     <div id="app" class="container">
-        <Layout>
-            <Header>
-                <Menu mode="horizontal" theme="dark" active-name="home">
-                    <MenuItem name="home" to="/">
+        <i-layout>
+            <i-header>
+                <i-menu mode="horizontal" theme="dark" active-name="home">
+                    <i-menu-item name="home" to="/">
                         <Icon type="ios-navigate" />
                         Home
-                    </MenuItem>
-                    <MenuItem name="todo" to="/todo">
+                    </i-menu-item>
+                    <i-menu-item name="todo" to="/todo">
                         <Icon type="ios-keypad" />
                         Todo
-                    </MenuItem>
-                </Menu>
-            </Header>
-            <Content>
+                    </i-menu-item>
+                </i-menu>
+            </i-header>
+            <i-content>
                 <keep-alive>
                     <router-view/>
                 </keep-alive>
-            </Content>
-        </Layout>
+            </i-content>
+        </i-layout>
     </div>
 </template>
 
