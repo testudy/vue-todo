@@ -28,8 +28,8 @@
             <tbody>
                 <todo-list-item
                     v-for="item in todos"
-                    :key="item.id"
                     :id="item.id"
+                    :key="item.id"
                     :todo="item.todo"
                     :checked="item.checked"
                     @on-update="update"
@@ -47,7 +47,7 @@ import Component from 'vue-class-component';
 import CommonForm from '../components/CommonForm.vue';
 import TodoListItem from '../components/TodoListItem.vue';
 
-@Component({
+export default @Component({
     components: {
         CommonForm,
         TodoListItem,
@@ -84,7 +84,7 @@ import TodoListItem from '../components/TodoListItem.vue';
         'clean',
     ]),
 })
-export default class Todo extends Vue {
+class Todo extends Vue {
 }
 </script>
 

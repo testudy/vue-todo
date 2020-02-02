@@ -1,8 +1,8 @@
 import Vue from 'vue';
-import iView from 'iview';
+import iViewDesign from 'view-design';
 
 export default function () {
-    const components = Object.keys(iView).filter(key => /^[A-Z]/.test(key));
+    const components = Object.keys(iViewDesign).filter((key) => /^[A-Z]/.test(key));
     components.forEach((key) => {
         const component = Vue.component(key);
         if (component) {
