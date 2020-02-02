@@ -5,7 +5,7 @@
                 :value="id"
                 :checked="checked"
                 type="checkbox"
-                @change.prevent="update({id, checked: $event.target.checked})"
+                @change.prevent="onUpdate({id, checked: $event.target.checked})"
             />
         </th>
         <td v-if="isEdit">
@@ -14,67 +14,22 @@
                 :todo="todo"
                 size="small"
                 btn-submit-text="修改"
-                @on-cancel="deactivateEdit"
-                @on-submit="update"
+                @on-cancel="onDeactivateEdit"
+                @on-submit="onUpdate"
             />
         </td>
-        <td v-else @click="activateEdit">
+        <td v-else @click="onActivateEdit">
             {{todo}}
         </td>
         <td class="todo-operation">
             <i-button
                 type="warning"
                 size="small"
-                @click.prevent="remove(id)"
+                @click.prevent="onRemove(id)"
             >删除</i-button>
         </td>
     </tr>
 </template>
-<script>
-import Vue from 'vue';
-import Component from 'vue-class-component';
-import CommonForm from './CommonForm.vue';
-
-@Component({
-    components: {
-        CommonForm,
-    },
-    props: {
-        id: {
-            type: String,
-            required: true,
-        },
-        todo: {
-            type: String,
-            required: true,
-        },
-        checked: {
-            type: Boolean,
-            default: false,
-        },
-    },
-})
-export default class TodoListItem extends Vue {
-    isEdit = false;
-
-    activateEdit() {
-        this.isEdit = true;
-    }
-    deactivateEdit() {
-        this.isEdit = false;
-    }
-    update(modal) {
-        if (typeof this.$listeners['on-update'] === 'function') {
-            this.$listeners['on-update'](modal);
-        }
-        this.deactivateEdit();
-    }
-    remove(id) {
-        if (typeof this.$listeners['on-remove'] === 'function') {
-            this.$listeners['on-remove'](id);
-        }
-    }
-}
-</script>
+<script src="./TodoListItem.ts" />
 <style>
 </style>

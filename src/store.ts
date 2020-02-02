@@ -5,23 +5,33 @@ import { guid } from './util';
 
 Vue.use(Vuex);
 
+export interface ITodo {
+    id?: string,
+    todo: string,
+    checked: boolean,
+}
+
+export interface IStoreState {
+    todos: Array<ITodo>,
+}
+
 export default new Vuex.Store({
     strict: process.env.NODE_ENV !== 'production',
 
     state: {
         todos: [],
-    },
+    } as IStoreState,
 
     mutations: {
-        create(state, payload) {
-            const model = {
+        create(state, payload): void {
+            const model: ITodo = {
                 ...payload,
                 id: guid(),
             };
             state.todos.push(model);
         },
 
-        update(state, payload) {
+        update(state, payload): void {
             const index = state.todos.findIndex((item) => item.id === payload.id);
             const model = {
                 ...state.todos[index],
@@ -30,24 +40,24 @@ export default new Vuex.Store({
             state.todos.splice(index, 1, model);
         },
 
-        remove(state, id) {
+        remove(state, id): void {
             const index = state.todos.findIndex((item) => item.id === id);
             state.todos.splice(index, 1);
         },
 
-        toggleCheckAll(state, checked) {
+        toggleCheckAll(state, checked): void {
             state.todos = state.todos.map((item) => ({ ...item, checked }));
         },
 
-        checkAll(state) {
+        checkAll(state): void {
             state.todos = state.todos.map((item) => ({ ...item, checked: true }));
         },
 
-        toggle(state) {
+        toggle(state): void {
             state.todos = state.todos.map((item) => ({ ...item, checked: !item.checked }));
         },
 
-        clean(state) {
+        clean(state): void {
             state.todos = state.todos.filter((item) => !item.checked);
         },
     },

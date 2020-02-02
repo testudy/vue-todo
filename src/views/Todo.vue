@@ -40,53 +40,7 @@
     </i-card>
 </template>
 
-<script>
-import Vue from 'vue';
-import { mapState, mapMutations } from 'vuex';
-import Component from 'vue-class-component';
-import CommonForm from '../components/CommonForm.vue';
-import TodoListItem from '../components/TodoListItem.vue';
-
-export default @Component({
-    components: {
-        CommonForm,
-        TodoListItem,
-    },
-
-    computed: {
-        ...mapState([
-            'todos',
-        ]),
-        ...mapState({
-            toggleCheckAllState: (state) => {
-                if (state.todos.length === 0) {
-                    return false;
-                }
-
-                for (let i = 0, len = state.todos.length; i < len; i += 1) {
-                    const item = state.todos[i];
-                    if (!item.checked) {
-                        return false;
-                    }
-                }
-                return true;
-            },
-        }),
-    },
-
-    methods: mapMutations([
-        'create',
-        'update',
-        'remove',
-        'toggleCheckAll',
-        'checkAll',
-        'toggle',
-        'clean',
-    ]),
-})
-class Todo extends Vue {
-}
-</script>
+<script src="./Todo.ts" />
 
 <style>
 .table {

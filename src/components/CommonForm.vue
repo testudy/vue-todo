@@ -15,7 +15,7 @@
             <Button
                 :size="size"
                 type="info"
-                @click.prevent="cancel"
+                @click.prevent="onCancel"
             >取消</button>
         </i-form-item>
         <i-form-item>
@@ -24,66 +24,12 @@
                 :disabled="isFormInvalid"
                 type="primary"
                 html-type="submit"
-                @click.prevent="submit"
+                @click.prevent="onSubmit"
             >{{btnSubmitText}}</button>
         </i-form-item>
     </i-form>
 </template>
-<script>
-import Vue from 'vue';
-import Component from 'vue-class-component';
-
-@Component({
-    props: {
-        id: {
-            type: String,
-            default: '',
-        },
-        todo: {
-            type: String,
-            default: '',
-        },
-        size: {
-            type: String,
-            default: 'default',
-            validator() {
-                return ['large', 'default', 'small'].indexOf !== -1;
-            },
-        },
-        btnSubmitText: {
-            type: String,
-            default: '确定',
-        },
-    },
-
-    computed: {
-        isFormInvalid() {
-            return !this.todoModel.todoState;
-        },
-    },
-})
-export default class CommonForm extends Vue {
-    todoModel = {
-        todoState: this.todo,
-    };
-
-    cancel() {
-        if (typeof this.$listeners['on-cancel'] === 'function') {
-            this.$listeners['on-cancel']();
-        }
-    }
-
-    submit() {
-        if (typeof this.$listeners['on-submit'] === 'function') {
-            this.$listeners['on-submit']({
-                id: this.id,
-                todo: this.todoModel.todoState,
-            });
-        }
-        this.$refs.todoForm.resetFields();
-    }
-}
-</script>
+<script src="./CommonForm.ts" />
 <style>
     .ivu-form-inline .ivu-form-item {
         margin-bottom: 0;
