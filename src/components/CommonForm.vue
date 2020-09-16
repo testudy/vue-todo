@@ -1,7 +1,7 @@
 <template>
     <i-form ref="todoForm" :model="todoModel" inline class="common-form">
         <i-form-item prop="todoState" class="common-form-input">
-            <Input
+            <i-input
                 v-model="todoModel.todoState"
                 :size="size"
                 type="text"
@@ -12,20 +12,20 @@
         <i-form-item
             v-if="typeof $listeners['on-cancel'] === 'function'"
         >
-            <Button
+            <i-button
                 :size="size"
                 type="info"
                 @click.prevent="onCancel"
-            >取消</button>
+            >取消</i-button>
         </i-form-item>
         <i-form-item>
-            <Button
+            <i-button
                 :size="size"
                 :disabled="isFormInvalid"
                 type="primary"
                 html-type="submit"
                 @click.prevent="onSubmit"
-            >{{btnSubmitText}}</button>
+            >{{btnSubmitText}}</i-button>
         </i-form-item>
     </i-form>
 </template>
